@@ -4,18 +4,19 @@ import MainButton from "../../components/shared/buttons/MainButton";
 import Dropzone from "../../components/shared/formInputs/Dropzone";
 import SelectInput from "../../components/shared/formInputs/SelectInput";
 import TextInput from "../../components/shared/formInputs/TextInput";
-import { useCreateBook } from "../../hooks/books/useCreateBook";
+import { useAddBook } from "../../hooks/books/useAddBook";
 import { useGetAuthors } from "../../hooks/books/useGetAuthors";
 import { useGetCategories } from "../../hooks/books/useGetCategories";
 import type { ICreateBookData } from "../../types/staff/CreateBookData";
+import GoBackButton from "../../components/shared/buttons/GoBackButton"; // Import GoBackButton
 
-const CreateBookPage = () => {
+const AddBookPage = () => {
   const { categories, isPending: isCategoriesPending } = useGetCategories();
   const { authors, isPending: isAuthorsPending } = useGetAuthors();
 
   const isFormPending = isCategoriesPending || isAuthorsPending;
 
-  const { createBook, isPending: isCreatingPending } = useCreateBook();
+  const { createBook, isPending: isCreatingPending } = useAddBook();
 
   const onSubmit = async (values: ICreateBookData) => {
     const bookData = {
@@ -119,16 +120,16 @@ const CreateBookPage = () => {
       type: "select",
       placeholder: "Select Category",
       options: categories || [],
-      link: "/employee/add-category",
-      linkText: "Add New Category",
+      link: "/employee/books/create-category",
+      linkText: "add new category",
     },
     {
       name: "author_id",
       type: "select",
       placeholder: "Select Author",
       options: authors || [],
-      link: "/employee/add-author",
-      linkText: "Add New Author",
+      link: "/employee/books/create-author",
+      linkText: "add new author",
     },
     {
       name: "purchase_available_stock",
@@ -143,8 +144,10 @@ const CreateBookPage = () => {
   ];
 
   return (
-    <div className="flex flex-1 flex-col overflow-auto p-8">
-      <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
+    <div className="relative flex flex-1 flex-col overflow-auto p-4 md:p-12">
+      <GoBackButton to="/employee/books" label="Return to Books Table" />
+
+      <h2 className="text-primary mt-12 text-center text-2xl font-bold md:mt-6">
         Create a New Book
       </h2>
       <Form
@@ -156,14 +159,14 @@ const CreateBookPage = () => {
           pristine,
           hasValidationErrors,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="mt-8">
             {isFormPending ? (
               <p>Loading categories and authors...</p>
             ) : (
               formData.map((item, index) => {
                 if (item.type === "select") {
                   return (
-                    <div key={index} className="flex items-center gap-5">
+                    <div key={index} className="mb-9 flex items-center gap-8">
                       <SelectInput
                         name={item.name}
                         placeholder={item.placeholder}
@@ -173,7 +176,7 @@ const CreateBookPage = () => {
                       {item.link && (
                         <Link
                           to={item.link}
-                          className="text-primary hover:text-primary-dark text-sm font-semibold whitespace-nowrap transition-colors focus:outline-none"
+                          className="text-primary hover:text-hover flex w-36 items-center gap-2 text-center text-sm font-semibold whitespace-nowrap transition-colors focus:outline-none"
                         >
                           + {item.linkText}
                         </Link>
@@ -221,4 +224,4 @@ const CreateBookPage = () => {
   );
 };
 
-export default CreateBookPage;
+export default AddBookPage;

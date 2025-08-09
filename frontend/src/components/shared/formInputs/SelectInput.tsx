@@ -17,7 +17,7 @@ const SelectInput = ({
   return (
     <Field name={name}>
       {({ input, meta }) => (
-        <div className={clsx("mb-9 w-full", containerClassName)}>
+        <div className={clsx("w-full", containerClassName)}>
           <div className="relative">
             <select
               {...input}

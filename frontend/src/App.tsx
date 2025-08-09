@@ -17,7 +17,9 @@ import NotFoundPage from "./pages/NotFoundPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import BorrowBooks from "./pages/client/BorrowBooks";
 import PurchaseBooks from "./pages/client/PurchaseBooks";
-import CreateBookPage from "./pages/employee/CreateBookPage";
+import AddAuthorPage from "./pages/employee/AddAuthorPage";
+import AddBookPage from "./pages/employee/AddBookPage";
+import AddCategoryPage from "./pages/employee/AddCategoryPage";
 import { UserRole } from "./types/User";
 
 const App = () => {
@@ -68,9 +70,14 @@ const App = () => {
           >
             <Route element={<EmployeeLayout />}>
               <Route path="/employee/books" element={<BooksTablePage />} />
+              <Route path="/employee/books/create-book" element={<AddBookPage />} />
               <Route
-                path="/employee/create-book"
-                element={<CreateBookPage />}
+                path="/employee/books/create-author"
+                element={<AddAuthorPage />}
+              />
+              <Route
+                path="/employee/books/create-category"
+                element={<AddCategoryPage />}
               />
             </Route>
           </Route>
